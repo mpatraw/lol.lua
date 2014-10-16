@@ -33,7 +33,7 @@ point.x, point.y = 0, 0
 local p = point:clone()
 ```
 
-Both `point` and `p` now have the members `x` and `y`, but currently `point`'s members are being shared with `p`. `p` doesn't own it's own `x` and `y` members. Due to semantics, this is perfectly fine for anything that isn't a table, because when you assign to `p` with a new `x` or `y` value, it creates it's own and no longer shares with `point`. This brings us to _shared members_.
+Both `point` and `p` now have the members `x` and `y`, but currently `point`'s members are being shared with `p`. `p` doesn't own it's own `x` and `y` members. Due to semantics, this is perfectly fine for anything that isn't a table, because when you assign to `p` with a new `x` or `y` value, it creates it's own and no longer shares with `point`. This brings us to __shared members__.
 
 ####Shared Members
 
@@ -107,4 +107,36 @@ Note: includes() and excludes() searches recusively.
 
 ###Copying/Orphaning
 
-TODO...
+Copying and orphaning are two more ways to avoid sharing data, they also provide a powerful mechanism for creating different object trees and copying data when necessary.
+
+```lua
+local lol = require('lol')
+local obj = lol:copy()
+print(obj:includes(lol)) -- false
+```
+
+The `copy()` method performs a deep copy for everything _except_ the includes list. This is so a copied object performs exactly the same as the object copied from. No variables are shared.
+
+The `orphan()` method is like copy, but goes a step further and "assimilates" every included object. What this essentially means, is the object owns all the methods and data and is completely independent.
+
+```lua
+local lol = require('lol')
+
+local obj = lol:clone()
+function obj:init()
+    self.data = {'hello, ', 'world'}
+end
+
+local o1 = obj:clone()
+local o2 = obj:orphan()
+
+print(o1:includes(lol)) -- true
+print(o2:includes(lol)) -- false
+print(o1.data[1] .. o1.data[2]) -- hello, world
+print(o2.data[1] .. o2.data[2]) -- hello, world
+o1.data[1] = 'goodbye, '
+print(o1.data[1] .. o1.data[2]) -- goodbye, world
+print(o2.data[1] .. o2.data[2]) -- hello, world
+```
+
+As seen above, `o2` has been completely orphaned from `lol` and `obj`.
