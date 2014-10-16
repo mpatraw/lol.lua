@@ -1,4 +1,4 @@
 lol.lua
 =======
 
-lol objects for lua
+lol object for lua
