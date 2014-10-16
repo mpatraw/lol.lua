@@ -1,8 +1,8 @@
 package = 'lol'
-version = '0.1-0'
+version = '0.2-0'
 source = {
     url = 'git://github.com/mpatraw/lol',
-    tag = 'v0.1'
+    tag = 'v0.2'
 }
 description = {
     summary = 'lol object for lua.',
@@ -19,4 +19,5 @@ build = {
     modules = {
         ['lol'] = 'lol.lua'
     },
+    copy_directories = {'doc', 'examples'}
 }
