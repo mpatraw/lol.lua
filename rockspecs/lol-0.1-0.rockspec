@@ -1,8 +1,8 @@
 package = 'lol'
-version = '0.9-0'
+version = '0.1-0'
 source = {
     url = 'git://github.com/mpatraw/lol',
-    tag = 'v0.9'
+    tag = 'v0.1'
 }
 description = {
     summary = 'lol object for lua.',
