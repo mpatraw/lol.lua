@@ -69,7 +69,7 @@ print(p.x) -- 8
 
 ###Including/Excluding
 
-When you clone an object, the new object puts the cloned object into a list of "includes". This list is is scanned for shared methods or member if it's not found in the original object. You can think of including as a form of inheritance. You can include any number of objects, and you can even exclude them.
+When you clone an object, the new object puts the cloned object into a list of "includes". This list is is scanned for shared methods or members if it's not found in the original object. You can think of including as a form of inheritance. You can include any number of objects, and you can even exclude them.
 
 ```lua
 local lol = require('lol')
@@ -89,8 +89,8 @@ person:include(whisperer) -- psst
 -- person now includes: lol, talker, and whisperer
 person:talk()
 person:whisper()
-person:exclude(talker) -- error!
-person:talk()
+person:exclude(talker)
+person:talk() -- error!
 ```
 
 You may also check to see if an object includes or excludes another object with the `excludes()` and `includes()` methods.
