@@ -60,8 +60,9 @@ setmetatable(lol, lol)
 lol.__index = index
 lol.__lols = {}
 
-function lol:clone()
-    local t = {__index = index}
+function lol:clone(into)
+    local t = into or {}
+    t.__index = index
     setmetatable(t, t)
     for _, mname in ipairs(metamethods) do
         t[mname] = function(...)
@@ -80,8 +81,8 @@ function lol:clone()
     return t
 end
 
-function lol:copy()
-    local copy = {}
+function lol:copy(into)
+    local copy = into or copy
     for key, value in next, self, nil do
         if key == '__lols' then
             copy[key] = shallowcopy(value)
@@ -96,7 +97,7 @@ function lol:copy()
     return copy
 end
 
-function lol:orphan()
+function lol:orphan(into)
     local function assimilate(to, from)
         for i = #from, 1, -1 do
             local lol = from[i]
@@ -109,7 +110,7 @@ function lol:orphan()
             end
         end
     end
-    local copy = {}
+    local copy = into or {}
     for key, value in next, self, nil do
         if key == '__lols' then
             assimilate(copy, value)
@@ -125,16 +126,19 @@ function lol:orphan()
     return copy
 end
 
-function lol:include(other, at)
-    at = at or #self.__lols + 1
-    self.__lols[at] = other
+function lol:include(...)
+    for _, v in ipairs({...}) do
+        self.__lols[#self.__lols + 1] = v
+    end
 end
 
-function lol:exclude(other)
-    for i = 1, #self.__lols do
-        if self.__lols[i] == other then
-            table.remove(self.__lols, i)
-            break
+function lol:exclude(...)
+    for _, v in ipairs({...}) do
+        for i = 1, #self.__lols do
+            if self.__lols[i] == v then
+                table.remove(self.__lols, i)
+                break
+            end
         end
     end
 end

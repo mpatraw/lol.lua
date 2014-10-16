@@ -6,7 +6,7 @@ __lol.lua__ is compatible with [Lua 5.1](http://www.lua.org/versions.html#5.1) a
 
 ##Installation
 
-Copy the file [lol.lua](https://github.com/mpatraw/lol.lua/blob/master/lol.lua) inside your project folder, call it using [require](http://www.lua.org/manual/5.1/manual.html#pdf-require) function. It will return a single object.
+Copy the file [lol.lua](https://github.com/mpatraw/lol.lua/blob/master/lol.lua) inside your project folder, call it using the [require](http://www.lua.org/manual/5.1/manual.html#pdf-require) function. It will return a single object.
 
 ##Quicktour
 
@@ -33,7 +33,7 @@ point.x, point.y = 0, 0
 local p = point:clone()
 ```
 
-Both `point` and `p` now have the members `x` and `y`, but currently `point`'s members are being shared with `p`. `p` doesn't own it's own x and y. Due to simple semantics, this is perfectly fine for anything that isn't a table, because when you assign to `p` with a new `x` or `y` value, it creates it own and no longer shares with `point`. This brings us to _shared members_.
+Both `point` and `p` now have the members `x` and `y`, but currently `point`'s members are being shared with `p`. `p` doesn't own it's own `x` and `y` members. Due to semantics, this is perfectly fine for anything that isn't a table, because when you assign to `p` with a new `x` or `y` value, it creates it's own and no longer shares with `point`. This brings us to _shared members_.
 
 ####Shared Members
 
