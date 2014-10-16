@@ -115,7 +115,7 @@ local obj = lol:copy()
 print(obj:includes(lol)) -- false
 ```
 
-The `copy()` method performs a deep copy for everything _except_ the includes list. This is so a copied object performs exactly the same as the object copied from. No variables are shared.
+The `copy()` method performs a deep copy for everything _except_ the includes list. This is so a copied object performs exactly the same as the object copied from, except no members are shared.
 
 The `orphan()` method is like copy, but goes a step further and "assimilates" every included object. What this essentially means, is the object owns all the methods and data and is completely independent.
 
@@ -123,9 +123,7 @@ The `orphan()` method is like copy, but goes a step further and "assimilates" ev
 local lol = require('lol')
 
 local obj = lol:clone()
-function obj:init()
-    self.data = {'hello, ', 'world'}
-end
+obj.data = {'hello, ', 'world'}
 
 local o1 = obj:clone()
 local o2 = obj:orphan()
