@@ -84,11 +84,7 @@ end
 function lol:copy(into)
     local copy = into or copy
     for key, value in next, self, nil do
-        if key == '__lols' then
-            copy[key] = shallowcopy(value)
-        else
-            copy[key] = deepcopy(value)
-        end
+        copy[key] = shallowcopy(value)
     end
     setmetatable(copy, copy)
     if rawget(self, 'init') then
@@ -103,7 +99,7 @@ function lol:deepcopy(into)
             local lol = from[i]
             for key, value in next, lol, nil do
                 if key == '__lols' then
-                    to[key] = shallowcopy(value)
+                    assimilate_data(to, value)
                 else
                     to[key] = deepcopy(value)
                 end
