@@ -119,6 +119,8 @@ The `copy()` method performs a deep copy for everything _except_ the includes li
 
 The `orphan()` method is like copy, but goes a step further and "assimilates" every included object. What this essentially means, is the object owns all the methods and data and is completely independent.
 
+Both `copy()` and `orphan()` call the `init()` function.
+
 ```lua
 local lol = require('lol')
 
