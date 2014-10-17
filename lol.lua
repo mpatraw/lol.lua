@@ -97,6 +97,35 @@ function lol:copy(into)
     return copy
 end
 
+function lol:deepcopy(into)
+    local function assimilate_data(to, from)
+        for i = #from, 1, -1 do
+            local lol = from[i]
+            for key, value in next, lol, nil do
+                if key == '__lols' then
+                    to[key] = shallowcopy(value)
+                else
+                    to[key] = deepcopy(value)
+                end
+            end
+        end
+    end
+    local copy = into or copy
+    for key, value in next, self, nil do
+        if key == '__lols' then
+            assimilate_data(copy, value)
+            copy[key] = shallowcopy(value)
+        else
+            copy[key] = deepcopy(value)
+        end
+    end
+    setmetatable(copy, copy)
+    if rawget(self, 'init') then
+        rawget(self, 'init')(copy)
+    end
+    return copy
+end
+
 function lol:orphan(into)
     local function assimilate(to, from)
         for i = #from, 1, -1 do
