@@ -82,7 +82,7 @@ function lol:clone(into)
 end
 
 function lol:copy(into)
-    local copy = into or copy
+    local copy = into or {}
     for key, value in next, self, nil do
         copy[key] = shallowcopy(value)
     end
