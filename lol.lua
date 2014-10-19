@@ -109,7 +109,7 @@ function lol:deepcopy(into)
     local copy = into or {}
     for key, value in next, self, nil do
         if key == '__lols' then
-            assimilate_data(copy, value)
+            assimilate(copy, value)
             copy[key] = shallowcopy(value)
         else
             copy[key] = deepcopy(value)

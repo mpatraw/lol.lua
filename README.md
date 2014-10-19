@@ -8,7 +8,7 @@ __lol.lua__ is compatible with [Lua 5.1](http://www.lua.org/versions.html#5.1) a
 
 Copy the file [lol.lua](https://github.com/mpatraw/lol.lua/blob/master/lol.lua) inside your project folder, call it using the [require](http://www.lua.org/manual/5.1/manual.html#pdf-require) function. It will return a single object.
 
-##Quicktour (for v0.1)
+##Quicktour (for v0.2)
 
 ###Cloning
 
@@ -105,21 +105,27 @@ print(obj:excludes(lol)) -- error! lol has the excludes() method
 
 Note: includes() and excludes() searches recusively.
 
-###Copying/Orphaning
+###Copying/Deepcopying
 
-Copying and orphaning are two more ways to avoid sharing data, they also provide a powerful mechanism for creating different object trees and copying data when necessary.
+Copying and deepcopying are two more ways to avoid sharing data, they also provide a powerful mechanism for creating different object trees and copying data when necessary.
 
 ```lua
 local lol = require('lol')
-local obj = lol:copy()
-print(obj:includes(lol)) -- false
+local foo = lol:clone()
+foo.var = 1
+local bar = foo:copy()
+print(bar.var) -- 1
+foo.var = 2
+print(bar.var) -- 1
+print(bar:includes(foo)) -- false
+print(bar:includes(lol)) -- true
 ```
 
-The `copy()` method performs a deep copy for everything _except_ the includes list. This is so a copied object performs exactly the same as the object copied from, except no members are shared.
+The `copy()` method performs a shallow copy for everything _even_ the includes list. This is so a copied object performs exactly the same as the object copied from, except no members are shared.
 
-The `orphan()` method is like copy, but goes a step further and "assimilates" every included object. What this essentially means, is the object owns all the methods and data and is completely independent.
+The `deepcopy()` method is like copy, but goes a step further and deep copies all the data and included objects. What this essentially means, is the object owns all the methods and data and can be completely independent. The object still has a shallow copy of the includes list.
 
-Both `copy()` and `orphan()` call the `init()` function.
+Both `copy()` and `deepcopy()` call the `init()` function.
 
 ```lua
 local lol = require('lol')
@@ -128,10 +134,10 @@ local obj = lol:clone()
 obj.data = {'hello, ', 'world'}
 
 local o1 = obj:clone()
-local o2 = obj:orphan()
+local o2 = obj:deepcopy()
 
 print(o1:includes(lol)) -- true
-print(o2:includes(lol)) -- false
+print(o2:includes(lol)) -- true, but it can be excluded if necessary.
 print(o1.data[1] .. o1.data[2]) -- hello, world
 print(o2.data[1] .. o2.data[2]) -- hello, world
 obj.data[1] = 'goodbye, '
@@ -139,4 +145,4 @@ print(o1.data[1] .. o1.data[2]) -- goodbye, world
 print(o2.data[1] .. o2.data[2]) -- hello, world
 ```
 
-As seen above, `o2` has been completely orphaned from `lol` and `obj`.
+As seen above, `o2` has it's own data separate from `lol` and `obj`.
