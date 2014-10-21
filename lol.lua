@@ -20,19 +20,6 @@ local function rawindex(t, k)
     end
 end
 
-local function shallowcopy(orig)
-    local copy
-    if type(orig) == 'table' then
-        copy = {}
-        for key, value in next, orig, nil do
-            copy[key] = value
-        end
-    else
-        copy = orig
-    end
-    return copy
-end
-
 local function deepcopy(orig)
     local copy
     if type(orig) == 'table' then
@@ -53,7 +40,7 @@ end
 
 local metamethods = 
     {'__add', '__call', '__concat'  , '__div'
-    ,'__le' , '__lt'  , '__mod'     , '__mul'
+    ,'__le' , '__lt'  , '__mod'  , '__mul'
     ,'__pow', '__sub' , '__tostring', '__unm'}
 
 setmetatable(lol, lol)
@@ -84,7 +71,7 @@ end
 function lol:copy(into)
     local copy = into or {}
     for key, value in next, self, nil do
-        copy[key] = shallowcopy(value)
+        copy[key] = value
     end
     setmetatable(copy, copy)
     if rawget(self, 'init') then
