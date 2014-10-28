@@ -8,7 +8,7 @@ __lol.lua__ is compatible with [Lua 5.1](http://www.lua.org/versions.html#5.1) a
 
 Copy the file [lol.lua](https://github.com/mpatraw/lol.lua/blob/master/lol.lua) inside your project folder, call it using the [require](http://www.lua.org/manual/5.1/manual.html#pdf-require) function. It will return a single object.
 
-##Quicktour (for v0.2)
+##Quicktour (for v0.3)
 
 ###Cloning
 
