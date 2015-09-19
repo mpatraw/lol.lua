@@ -35,7 +35,7 @@ local p = point:clone()
 
 Both `point` and `p` now have the members `x` and `y`, but currently `point`'s members are being shared with `p`. `p` doesn't own it's own `x` and `y` members. Due to semantics, this is perfectly fine in some cases for anything that isn't a table, because when you assign to `p` with a new `x` or `y` value, it creates it's own and no longer shares with `point`. A table usually is updated in place with . or []. This brings us to __shared members__.
 
-####Shared Members
+####Avoiding Shared Members
 
 If sharing members is undesirable, you have a few options, one of them is to initialize variables when a cloning occurs using `init()`.
 
